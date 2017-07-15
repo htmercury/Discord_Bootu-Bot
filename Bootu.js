@@ -24,6 +24,7 @@ client.on("message", (message) => {
   let userData = points[message.author.id];
   userData.points ++;
 
+  // Formula to calculate levels from points
   let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
   if (curLevel > userData.level) {
     // level up!
@@ -31,6 +32,7 @@ client.on("message", (message) => {
     message.reply(`Congratulations! You"ve leveled up to level **${curLevel}**!`);
   }
 
+  // Level function to notify player level
   if (message.content.startsWith(config.prefix + "level")) {
     message.reply(`You are currently level ${userData.level}, with ${userData.points} points.`);
   }
