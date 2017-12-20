@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+const config = require("./config.json");
 const fs = require("fs");
 
 let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
