@@ -4,8 +4,7 @@
   "description": "Wonky discord bot for a friend's server",
   "main": "index.js",
   "engines": {
-    "node": "8.9.3",
-    "npm": "5.60"
+    "node": "8.9.3"
   },
   "dependencies": {
     "discord.js": "^11.2.1",
