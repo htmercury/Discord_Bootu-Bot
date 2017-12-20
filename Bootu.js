@@ -16,32 +16,6 @@ client.on("message", (message) => {
   // Exit and stop if prefix is not there or triggered by another bot
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-  // if points don't exist init to 0
-  if(!points[message.author.id]) points[message.author.id] = {
-    points: 0,
-    level: 0
-  };
-  let userData = points[message.author.id];
-  userData.points ++;
-
-  // Formula to calculate levels from points
-  let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
-  if (curLevel > userData.level) {
-    // level up!
-    userData.level = curLevel;
-    message.reply(`Congratulations! You"ve leveled up to level **${curLevel}**!`);
-  }
-
-  // Level function to notify player level
-  if (message.content.startsWith(config.prefix + "level")) {
-    message.reply(`You are currently level ${userData.level}, with ${userData.points} points.`);
-  }
-
-  // Save the edited file
-  fs.writeFile("./points.json", JSON.stringify(points), (err) => {
-    if (err) console.error(err);
-  });
-
   if (message.content.startsWith(config.prefix + "ping")) {
     message.channel.send("pong!");
   }
