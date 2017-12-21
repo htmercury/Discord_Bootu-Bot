@@ -42,14 +42,45 @@ setInterval(() => {
 
 client.on("message", (message) => {
 
-  // Exit and stop if prefix is not there or triggered by another bot
-  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    // Exit and stop if prefix is not there or triggered by another bot
+    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-  if (message.content.startsWith(config.prefix + "ping")) {
-    message.channel.send("pong!");
-  }
+    if (message.content.startsWith(config.prefix + "ping")) {
+        message.channel.send("pong!");
+    }
 
-  if (message.content.startsWith(config.prefix + "slap")) {
-    message.channel.send("this booty");
-  }
+    if (message.content.startsWith(config.prefix + "slap")) {
+        message.channel.send("this booty");
+    }
+    if (message.content.startsWith(config.prefix + "quote")) {
+        var https = require('https');
+        var options = {
+            host: 'okrammus.herokuapp.com',
+            path: '/random'
+        };
+
+        var req = https.get(options, function (res) {
+            console.log('STATUS: ' + res.statusCode);
+            console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+            // Buffer the body entirely for processing as a whole.
+            var bodyChunks = [];
+            res.on('data', function (chunk) {
+                // You can process streamed parts here...
+                bodyChunks.push(chunk);
+            }).on('end', function () {
+                var body = Buffer.concat(bodyChunks);
+                var data = JSON.parse(body);
+                // ...and/or process the entire body here.
+                console.log(data);
+                console.log(data.quotes);
+                message.channel.send(data.quotes[Math.floor(Math.random() * data.quotes.length)] + "    **-" + data.name + "**");
+            })
+        });
+
+        req.on('error', function (e) {
+            console.log('ERROR: ' + e.message);
+        });
+    }
+
 });
