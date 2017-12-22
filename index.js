@@ -1,3 +1,18 @@
+// init project
+var express = require('express');
+var app = express();
+
+// ping itself every 5 minutes
+const http = require('http');
+app.get("/", (request, response) => {
+    console.log(Date.now() + " Ping Received");
+    response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+    http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
+
 // discord.js bot
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -9,38 +24,17 @@ client.on("ready", () => {
 });
 client.login(process.env.TOKEN);
 
-// Web app (Express + EJS)
-const http = require('http');
-const express = require('express');
-const app = express();
-
-// set the port of our application
-// process.env.PORT lets the port be set by Heroku
-const port = process.env.PORT || 5000;
-
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-
-// make express look in the `public` directory for assets (css/js/img)
-app.use(express.static(__dirname + '/public'));
-
-// set the home page route
-app.get('/', (request, response) => {
-    // ejs render automatically looks in the views folder
-    response.render('index');
-});
-
-app.listen(port, () => {
-    // will echo 'Our app is running on http://localhost:5000 when run locally'
-    console.log('Our app is running on http://localhost:' + port);
-});
-
-// pings server every 3 hrs to prevent dynos from sleeping
-setInterval(() => {
-    http.get('http://bootu-bot.herokuapp.com');
-}, 4800000);
-
 client.on("message", (message) => {
+
+    const swearWords = process.env.SWEARWORDS.split(' ');
+    if (swearWords.some(word => message.content.toLowerCase().includes(word))) {
+
+        message.channel.send("Oh no you said a bad word!!!");
+        // Or just do message.delete();
+    }
+
+    if (Object.keys(config.responseObject).some(word => message.content.toLowerCase().includes(word)))
+        message.channel.send(config.responseObject[message.content]);
 
     // Exit and stop if prefix is not there or triggered by another bot
     if (!message.content.startsWith(config.prefix) || message.author.bot) return;
@@ -72,9 +66,7 @@ client.on("message", (message) => {
                 var body = Buffer.concat(bodyChunks);
                 var data = JSON.parse(body);
                 // ...and/or process the entire body here.
-                console.log(data);
-                console.log(data.quotes);
-                message.channel.send(data.quotes[Math.floor(Math.random() * data.quotes.length)] + "    **-" + data.name + "**");
+                message.channel.send(data.quotes[Math.floor(Math.random() * data.quotes.length)] + "    **-" + data.name + "**", { files: [data.image] });
             })
         });
 
@@ -82,5 +74,43 @@ client.on("message", (message) => {
             console.log('ERROR: ' + e.message);
         });
     }
+    if (message.content.startsWith(config.prefix + "search")) {
+        // The modules we are using are cheerio, snekfetch, and querystring.
+        const cheerio = require('cheerio'),
+            snekfetch = require('snekfetch'),
+            querystring = require('querystring');
+
+        var Message = message.content.substring(8);
+        googleCommand(Message);
+        // Depending on your command framework (or if you use one), it doesn't have to
+        // edit messages so you can rework it to fit your needs. Again, this doesn't have
+        // to be async if you don't care about message editing.
+        async function googleCommand(msg, args) {
+
+            // These are our two variables. One of them creates a message while we preform a search,
+            // the other generates a URL for our crawler.
+            let searchMessage = await message.channel.send('Searching... Sec.');
+            let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(msg)}`;
+
+            // We will now use snekfetch to crawl Google.com. Snekfetch uses promises so we will
+            // utilize that for our try/catch block.
+            return snekfetch.get(searchUrl).then((result) => {
+
+                // Cheerio lets us parse the HTML on our google result to grab the URL.
+                let $ = cheerio.load(result.text);
+
+                // This is allowing us to grab the URL from within the instance of the page (HTML)
+                let googleData = $('.r').first().find('a').first().attr('href');
+
+                // Now that we have our data from Google, we can send it to the channel.
+                googleData = querystring.parse(googleData.replace('/url?', ''));
+                searchMessage.edit(`Result found!\n${googleData.q}`);
+
+                // If no results are found, we catch it and return 'No results are found!'
+            }).catch((err) => {
+                searchMessage.edit('No results found!');
+            });
+        }
+    };
 
 });

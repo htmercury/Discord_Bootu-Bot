@@ -1,1 +1,9 @@
-{ "prefix": "~" }
+{
+  "prefix": "~",
+  "responseObject": {
+    "ayy": "Ayy, lmao!",
+    "wat": "Say what?",
+    "lol": "roflmaotntpmp",
+    "boosted": "SPY DIS BOOSTED BOOTY"
+  }
+}
