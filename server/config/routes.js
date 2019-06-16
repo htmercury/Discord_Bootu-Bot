@@ -5,22 +5,45 @@ module.exports = function (client) {
     client.on("message", (message) => {
         if (Object.keys(config.responseObject).some(word => message.content.toLowerCase().includes(word)))
             message.channel.send(config.responseObject[message.content]);
-    
+
         // Exit and stop if prefix is not there or triggered by another bot
         if (!message.content.startsWith(config.prefix) || message.author.bot) return;
-    
+
         if (message.content.startsWith(config.prefix + "ping")) {
             message.channel.send("pong!");
         }
-    
+
         if (message.content.startsWith(config.prefix + "slap")) {
             message.channel.send("this booty");
+        }
+
+        if (message.content.startsWith(config.prefix + "join")) {
+            if (!message.member.voiceChannel) {
+                message.reply("You must be in a voice channel to summon me!");
+                return;
+            }
+            message.member.voiceChannel.join().then(connection => {
+                // Yay, it worked!
+                console.log("Successfully connected.");
+            }).catch(e => {
+                // Oh no, it errored! Let's log it to console :)
+                console.error(e);
+            });
+        }
+
+        if (message.content.startsWith(config.prefix + "leave")) {
+            if (message.guild.voiceConnection) {
+                message.guild.voiceConnection.disconnect();
+            }
+            else {
+                message.reply("I must be in a voice channel to be banished!");
+            }
         }
 
         if (message.content.startsWith(config.prefix + "clearchat")) {
             async function clear() {
                 message.delete();
-                const fetched = await message.channel.fetchMessages({limit: 99});
+                const fetched = await message.channel.fetchMessages({ limit: 99 });
                 message.channel.bulkDelete(fetched);
             }
             clear();
