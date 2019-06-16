@@ -1,9 +1,21 @@
-{
-  "prefix": "~",
-  "responseObject": {
-    "ayy": "Ayy, lmao!",
-    "wat": "Say what?",
-    "lol": "roflmaotntpmp",
-    "boosted": "SPY DIS BOOSTED BOOTY"
-  }
-}
+{ "prefix": "~",
+  "sounds": ["https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1428540075000-4499.mp3?v=1560724109352", 
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1436034551000-2621.mp3?v=1560724109409", 
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1462051482000-3840.mp3?v=1560724109465",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1466803162615-3898.mp3?v=1560724109566",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1466803452946-4235.mp3?v=1560724109678",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1466803911641-5423.mp3?v=1560724109804",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1467306934250-2646.mp3?v=1560724109972",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1479787749000-2176.mp3?v=1560724110090",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1493330733000-2304.mp3?v=1560724110190",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1493331030000-1664.mp3?v=1560724110312",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1499595369000-2048%20(1).mp3?v=1560724111268",
+              "https://cdn.glitch.com/9b45a5b2-4027-45d0-b01c-d850e5a07082%2Faudioclip-1499595381000-2176.mp3?v=1560724111400"],
+ "responseObject": {
+   "ayy": "Ayy, lmao!",
+   "wat": "Say what?",
+   "lol": "roflmaotntpmp",
+   "boosted": "SPY DIS BOOSTED BOOTY"
+ }
+ }
+ 
