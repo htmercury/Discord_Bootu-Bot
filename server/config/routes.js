@@ -3,14 +3,6 @@ module.exports = function (client) {
     const commands = require("../commands/main");
 
     client.on("message", (message) => {
-
-        const swearWords = process.env.SWEARWORDS.split(' ');
-        if (swearWords.some(word => message.content.toLowerCase().includes(word))) {
-    
-            message.channel.send("Oh no you said a bad word!!!");
-            // Or just do message.delete();
-        }
-    
         if (Object.keys(config.responseObject).some(word => message.content.toLowerCase().includes(word)))
             message.channel.send(config.responseObject[message.content]);
     
@@ -24,6 +16,16 @@ module.exports = function (client) {
         if (message.content.startsWith(config.prefix + "slap")) {
             message.channel.send("this booty");
         }
+
+        if (message.content.startsWith(config.prefix + "clearchat")) {
+            async function clear() {
+                message.delete();
+                const fetched = await message.channel.fetchMessages({limit: 99});
+                message.channel.bulkDelete(fetched);
+            }
+            clear();
+        }
+
         if (message.content.startsWith(config.prefix + "quote")) {
             commands.quote(message);
         }
