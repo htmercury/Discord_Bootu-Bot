@@ -9,7 +9,7 @@ app.get("/", (request, response) => {
     response.sendStatus(200);
 });
 
-app.listen(process.env.PORT );
+app.listen(process.env.PORT);
 
 setInterval(() => {
     http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
