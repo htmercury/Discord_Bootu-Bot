@@ -10,7 +10,7 @@
     "cheerio": "^1.0.0-rc.2",
     "discord.js": "^11.2.1",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "opusscript": "0.0.6",
     "querystring": "^0.2.0",
     "snekfetch": "^3.6.1",
